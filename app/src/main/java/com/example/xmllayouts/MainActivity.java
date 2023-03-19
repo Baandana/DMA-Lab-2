@@ -1,108 +1,131 @@
 package com.example.xmllayouts;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SwitchCompat;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
-    private EditText cost_of_service;
-    private TextView tip_amount;
-    private RadioGroup radio_group;
-    private RadioButton rb_okay;
-    private Button btn_calculate;
-    private SwitchCompat round_up_tip;
+    private Button calculate_btn;
+    private RadioGroup selected_rg;
+    private EditText value_et;
 
-    double cost = 0;
-    private double tip_percentage = 0;
-    private double tip_amount_in_double = 0;
-    private int tip_amount_in_int = 0;
+    private TextView resultMeasurement;
 
-    private boolean isChecked = false;
+    private Switch reverse_calc;
+    private RadioButton option_one, option_two, option_three, option_four;
+
+    private boolean checked_one = false, checked_two=false, checked_three=false, checked_four =false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        cost_of_service = findViewById(R.id.input_cos);
-        tip_amount = findViewById(R.id.tv_tip_amount);
-        btn_calculate = findViewById(R.id.btn_calculate);
-        rb_okay = findViewById(R.id.rb_okay);
-        round_up_tip = (SwitchCompat) findViewById(R.id.round_up_tip);
-        radio_group = findViewById(R.id.radioGroup);
+        value_et = findViewById(R.id.measurement_et);
+        selected_rg=findViewById(R.id.measurement_options_rg);
+        calculate_btn = findViewById(R.id.calculate_btn);
+        resultMeasurement = findViewById(R.id.result_measurement_tv);
 
-        // set event listener for button click
-        btn_calculate.setOnClickListener(view -> {
-            if(cost_of_service.getText().toString().equals("")) {
-                cost_of_service.setError("Field cannot be empty!");
-                return;
-            }
+        reverse_calc = findViewById(R.id.reverse_measurement_switch);
 
-            int checkedId = radio_group.getCheckedRadioButtonId();
-            if(checkedId < 0) {
-                rb_okay.setError("Check one option!");
-                return;
-            }
 
-            try {
-                cost = Double.parseDouble(cost_of_service.getText().toString());
-            }
-            catch(Exception ex) {
-                cost_of_service.setError("Invalid input format!");
-                return;
-            }
+        /*
+         * Radio Button Options
+         */
+        option_one = findViewById(R.id.ml_fluid_ounces_option);
+        option_two = findViewById(R.id.grams_to_cups_option);
+        option_three = findViewById(R.id.cups_to_tbsp_option);
+        option_four = findViewById(R.id.cups_to_ml_option);
 
-            switch(checkedId) {
-                case R.id.rb_amazing:
-                    tip_percentage = 0.20;
-                    break;
-                case R.id.rb_good:
-                    tip_percentage = 0.18;
-                    break;
-                case R.id.rb_okay:
-                    tip_percentage = 0.15;
-                    break;
-            }
 
-            round_up_tip.setOnCheckedChangeListener((compoundButton, b) -> {
-                isChecked = b ? true : false;
-            });
+        /* Created a listener for switch such that once its is changed,
+         * the radio Button options are also changed accordingly.*/
+        CompoundButton.OnCheckedChangeListener switchListener = new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isTurnedOn) {
+                if(isTurnedOn)
+                {
+                    option_one.setText(R.string.ounces_fluid_ml_option);
+                    option_two.setText(R.string.grams_to_cups_option);
+                    option_three.setText(R.string.tbsp_to_cups_option);
+                    option_four.setText(R.string.ml_to_cups_option);
 
-            // calculate tip amount and display in TextView
-            if(isChecked) {
-                tip_amount_in_int = (int) Math.round(cost * tip_percentage);
-                tip_amount.setText(String.valueOf(tip_amount_in_int));
+                }
+                else
+                {
+                    option_one.setText(R.string.ml_fluid_ounces_option);
+                    option_two.setText(R.string.grams_to_cups_option);
+                    option_three.setText(R.string.cups_to_tbsp_option);
+                    option_four.setText(R.string.cups_to_ml_option);
+                }
             }
-            else {
-                tip_amount_in_double = cost * tip_percentage;
-                tip_amount.setText(String.valueOf(tip_amount_in_double));
+        };
+
+        reverse_calc.setOnCheckedChangeListener(switchListener);
+
+        /*
+         * On click listener in button.
+         * */
+        calculate_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int radioChecked = selected_rg.getCheckedRadioButtonId();
+                if(reverse_calc.isChecked())
+                {
+                    try {
+                        switch (radioChecked) {
+                            case R.id.cups_to_ml_option:
+                                resultMeasurement.setText(String.valueOf(Double.parseDouble(value_et.getText().toString())*29.57));
+                                break;
+                            case R.id.cups_to_tbsp_option:
+                                resultMeasurement.setText(String.valueOf(Double.parseDouble(value_et.getText().toString())*16));
+                                break;
+                            case R.id.grams_to_cups_option:
+                                resultMeasurement.setText(String.valueOf(Double.parseDouble(value_et.getText().toString())*250));
+                                break;
+                            case R.id.ml_fluid_ounces_option:
+                                resultMeasurement.setText(String.valueOf(Double.parseDouble(value_et.getText().toString())*0.033814));
+                                break;
+                        }
+                    }catch(Exception e)
+                    {
+                        Toast.makeText(MainActivity.this, "Please enter measurement.", Toast.LENGTH_LONG).show();
+                    }
+                }
+                else
+                {
+                    try {
+                        switch (radioChecked) {
+                            case R.id.cups_to_ml_option:
+                                resultMeasurement.setText(String.valueOf(Double.parseDouble(value_et.getText().toString())/29.57));
+                                break;
+                            case R.id.cups_to_tbsp_option:
+                                resultMeasurement.setText(String.valueOf(Double.parseDouble(value_et.getText().toString())/16));
+                                break;
+                            case R.id.grams_to_cups_option:
+                                resultMeasurement.setText(String.valueOf(Double.parseDouble(value_et.getText().toString())/250));
+                                break;
+                            case R.id.ml_fluid_ounces_option:
+                                resultMeasurement.setText(String.valueOf(Double.parseDouble(value_et.getText().toString())/0.033814));
+                                break;
+                        }
+                    }catch(Exception e)
+                    {
+                        Toast.makeText(MainActivity.this, "Please enter measurement.", Toast.LENGTH_LONG).show();
+                    }
+                }
+
             }
         });
 
-        // set event listener for radio button selection
-        radio_group.setOnCheckedChangeListener((radioGroup, i) -> {
-            switch(i) {
-
-                // show Toast message for selected radio button
-
-                case R.id.rb_amazing:
-                    Toast.makeText(MainActivity.this, "Amazing clicked!", Toast.LENGTH_SHORT).show();
-                    break;
-                case R.id.rb_good:
-                    Toast.makeText(MainActivity.this, "Good clicked!", Toast.LENGTH_SHORT).show();
-                    break;
-                case R.id.rb_okay:
-                    Toast.makeText(MainActivity.this, "Okay clicked!", Toast.LENGTH_SHORT).show();
-                    break;
-            }
-        });
     }
-
 }

@@ -4,96 +4,89 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="16dp"
     tools:context=".MainActivity">
 
-    <EditText
-        android:id="@+id/input_cos"
+    <TextView
+        android:id="@+id/heading_tv"
         android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="76dp"
-        android:autofillHints="no"
-        android:ems="10"
-        android:hint="@string/cost_of_service"
-        android:inputType="number"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        android:layout_height="wrap_content"
+        android:text="@string/conversion_app"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/tv_hws"
+    <EditText
+        android:id="@+id/measurement_et"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="24dp"
-        android:text="@string/how_was_the_service"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        android:hint="Enter your measurements"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/input_cos" />
+        app:layout_constraintTop_toBottomOf="@id/heading_tv"
+        android:inputType="numberDecimal"
+        />
 
     <RadioGroup
-        android:id="@+id/radioGroup"
-        android:layout_width="246dp"
-        android:layout_height="173dp"
-        android:layout_marginTop="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.303"
+        android:id="@+id/measurement_options_rg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checkedButton="@id/ml_fluid_ounces_option"
+        android:orientation="vertical"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_hws">
+        app:layout_constraintTop_toBottomOf="@id/measurement_et">
 
         <RadioButton
-            android:id="@+id/rb_amazing"
-            android:layout_width="match_parent"
+            android:id="@+id/ml_fluid_ounces_option"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/amazing_20" />
+            android:text="@string/ml_fluid_ounces_option" />
 
         <RadioButton
-            android:id="@+id/rb_good"
-            android:layout_width="match_parent"
+            android:id="@+id/grams_to_cups_option"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:text="@string/good_8" />
+            android:text="@string/grams_to_cups_option" />
 
         <RadioButton
-            android:id="@+id/rb_okay"
-            android:layout_width="match_parent"
+            android:id="@+id/cups_to_tbsp_option"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/okay_15" />
+            android:text="@string/cups_to_tbsp_option" />
+
+        <RadioButton
+            android:id="@+id/cups_to_ml_option"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cups_to_ml_option" />
+
     </RadioGroup>
 
     <Button
-        android:id="@+id/btn_calculate"
-        android:layout_width="279dp"
-        android:layout_height="50dp"
+        android:id="@+id/calculate_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:text="@string/calculate"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/round_up_tip"
-        app:layout_constraintVertical_bias="0.186" />
+        app:layout_constraintTop_toBottomOf="@+id/reverse_measurement_switch" />
 
-    <androidx.appcompat.widget.SwitchCompat
-        android:id="@+id/round_up_tip"
-        android:layout_width="320dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="36dp"
-        android:paddingEnd="20dp"
-        android:text="@string/round_of_tip"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
+    <Switch
+        android:id="@+id/reverse_measurement_switch"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/reverse_calculate"
+        android:textSize="10sp"
+        app:layout_constraintEnd_toEndOf="@+id/calculate_btn"
+        app:layout_constraintStart_toStartOf="@+id/measurement_options_rg"
+        app:layout_constraintTop_toBottomOf="@+id/measurement_options_rg" />
 
     <TextView
-        android:id="@+id/tv_tip_amount"
-        android:layout_width="104dp"
-        android:layout_height="22dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="28dp"
-        android:text="@string/tip_amount"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_calculate" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/result"
+        android:id="@+id/result_measurement_tv"
+        app:layout_constraintTop_toBottomOf="@id/calculate_btn"
+        app:layout_constraintEnd_toEndOf="@id/calculate_btn"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

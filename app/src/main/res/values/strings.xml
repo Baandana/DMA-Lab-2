@@ -1,11 +1,15 @@
 <resources>
-    <string name="app_name">Tip Calculator</string>
-    <string name="cost_of_service">Cost of Service</string>
-    <string name="how_was_the_service">How was the service?</string>
-    <string name="amazing_20">Amazing (20%)</string>
-    <string name="good_8">Good (8%)</string>
-    <string name="okay_15">Okay (15%)</string>
+    <string name="app_name">Unit converter for cooking</string>
+    <string name="conversion_app">Convert units</string>
+    <string name="ml_fluid_ounces_option">ml to Fluid Oz</string>
+    <string name="grams_to_cups_option">Grams to Cups</string>
+    <string name="cups_to_tbsp_option">Cups to Tbsp</string>
+    <string name="cups_to_ml_option">Cups to Ml</string>
     <string name="calculate">Calculate</string>
-    <string name="tip_amount">Tip Amount</string>
-    <string name="round_of_tip">Round of Tip?</string>
+    <string name="ounces_fluid_ml_option">Fluid Oz to ml</string>
+    <string name="cups_to_grams_option">Cups to Grams</string>
+    <string name="tbsp_to_cups_option">Tbsp to Cup</string>
+    <string name="ml_to_cups_option">ml to cups</string>
+    <string name="result">Result</string>
+    <string name="reverse_calculate">Reverse Measurements</string>
 </resources>
